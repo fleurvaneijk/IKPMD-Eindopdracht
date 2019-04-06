@@ -12,9 +12,9 @@
         <activity android:name=".StatisticsActivity"></activity>
         <activity android:name=".AccountActivity" />
         <activity android:name=".PlaylistActivity" />
-        <activity android:name=".SignInActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
