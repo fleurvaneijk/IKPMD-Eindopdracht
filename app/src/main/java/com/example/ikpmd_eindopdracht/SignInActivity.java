@@ -95,6 +95,7 @@ public class SignInActivity extends AppCompatActivity {
             // The Task returned from this call is always completed, no need to attach
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            Log.d("task", task.toString());
             handleSignInResult(task);
         }
     }
@@ -102,9 +103,11 @@ public class SignInActivity extends AppCompatActivity {
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Log.d("kaas", account.toString());
 
             // Signed in successfully, show authenticated UI.
             updateUI(account);
+
             startActivity(new Intent(this, MainActivity.class));
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
