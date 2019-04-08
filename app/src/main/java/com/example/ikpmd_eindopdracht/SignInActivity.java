@@ -68,7 +68,6 @@ public class SignInActivity extends AppCompatActivity {
         Log.d("kaas", "goeiemiddag");
         updateUI(account);
         Log.d("kaas", "boven");
-        Log.d("kaas", account.toString());
         Log.d("kaas", "eentje onder");
         Log.d("kaas", account.getEmail());
 
