@@ -43,6 +43,9 @@ public class TrackListActivity extends AppCompatActivity {
 
     private void fillTheModels() {
         trackModels.add(new Track("Shield Frog", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
+        trackModels.add(new Track("Underwater Disco", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
+        trackModels.add(new Track("Ozone Drive", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
+        trackModels.add(new Track("MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
     }
 
 

@@ -11,79 +11,60 @@
         android:id="@+id/subject_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:paddingLeft="16dp"
         android:paddingTop="20dp"
         android:paddingRight="16dp"
-        android:text=" DEZE TEXT LEES IK TERUG "
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="138dp"
+        tools:text="@string/title" />
 
     <TextView
         android:id="@+id/subject_artist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="8dp"
         android:paddingLeft="16dp"
         android:paddingTop="20dp"
         android:paddingRight="16dp"
-        android:text=" EN DEZE TEXT OOK "
+        android:text="@string/artist"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toStartOf="@+id/subject_genre"
-        app:layout_constraintHorizontal_bias="0.8"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subject_title" />
+        tools:layout_editor_absoluteX="138dp"
+        tools:layout_editor_absoluteY="42dp" />
 
     <TextView
         android:id="@+id/subject_genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="32dp"
         android:paddingLeft="16dp"
         android:paddingTop="20dp"
         android:paddingRight="16dp"
-        android:text=" EN DEZE TEXT OOK "
+        android:text="@string/genre"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subject_title" />
+        tools:layout_editor_absoluteX="225dp"
+        tools:layout_editor_absoluteY="38dp" />
 
     <TextView
         android:id="@+id/subject_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:paddingLeft="16dp"
         android:paddingTop="20dp"
         android:paddingRight="16dp"
-        android:text=" EN DEZE TEXT OOK "
+        android:text="@string/duration"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subject_genre" />
+        tools:layout_editor_absoluteX="300dp"
+        tools:layout_editor_absoluteY="38dp" />
 
-    <TextView
-        android:id="@+id/subject_track"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:paddingLeft="16dp"
-        android:paddingTop="20dp"
-        android:paddingRight="16dp"
-        android:text=" EN DEZE TEXT OOK "
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="82dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="1dp"
         app:layout_constraintEnd_toStartOf="@+id/subject_duration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/subject_artist" />
-
+        app:layout_constraintStart_toEndOf="@+id/subject_artist"
+        app:layout_constraintTop_toBottomOf="@+id/subject_title"
+        app:srcCompat="@drawable/ozone" />
 
 
 </android.support.constraint.ConstraintLayout>

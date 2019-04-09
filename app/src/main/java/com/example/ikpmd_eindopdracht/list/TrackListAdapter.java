@@ -32,7 +32,6 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
             vh.artist = (TextView) convertView.findViewById(R.id.subject_artist);
             vh.genre = (TextView) convertView.findViewById(R.id.subject_genre);
             vh.duration = (TextView) convertView.findViewById(R.id.subject_duration);
-            vh.track = (TextView) convertView.findViewById(R.id.subject_track);
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
@@ -43,8 +42,8 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         vh.title.setText((CharSequence) track.getTitle());
         vh.artist.setText((CharSequence) track.getArtist());
         vh.genre.setText((CharSequence) track.getGenre());
-        vh.duration.setText((CharSequence) track.getDuration());
-        vh.track.setText((CharSequence) track.getTrack());
+//        vh.duration.setText((CharSequence) track.getDuration());
+//        vh.track.setText((CharSequence) track.getTrack());
         return convertView;
     }
 
