@@ -9,18 +9,29 @@ import java.util.Date;
 
 public class Track implements Serializable {
 
+    private String image;
     private String title;
     private String artist;
     private String genre;
     private Date duration;
     private MediaPlayer track;
 
-    public Track(String title, String artist, String genre, Date duration, MediaPlayer track) {
+
+    public Track(String image, String title, String artist, String genre, Date duration, MediaPlayer track) {
+        this.image = image;
         this.title = title;
         this.artist = artist;
         this.genre = genre;
         this.duration = duration;
         this.track = track;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getTitle() {

@@ -19,7 +19,7 @@
         android:textColor="#fafafa"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/subject_artist"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/subject_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="spread_inside"
         tools:text="@string/title" />
@@ -33,7 +33,7 @@
         android:textColor="#c7c7c7"
         android:text="@string/artist"
         app:layout_constraintEnd_toStartOf="@+id/subject_genre"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/subject_image"
         app:layout_constraintTop_toBottomOf="@+id/subject_title" />
 
     <TextView
@@ -59,7 +59,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/subject_image"
         android:layout_width="63dp"
         android:layout_height="64dp"
         android:layout_marginBottom="16dp"
@@ -67,7 +67,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ozone" />
+        app:srcCompat="@drawable/vier" />
 
     <Button
         android:id="@+id/button2"
