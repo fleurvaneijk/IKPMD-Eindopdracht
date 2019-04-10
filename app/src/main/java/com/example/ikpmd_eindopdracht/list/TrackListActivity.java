@@ -17,6 +17,8 @@ import java.util.List;
 
 public class TrackListActivity extends AppCompatActivity {
 
+    MediaPlayer mediaPlayer;
+
     private ListView mListView;
     private TrackListAdapter trackAdapter;
     private List<Track> trackModels = new ArrayList<>();
@@ -54,6 +56,11 @@ public class TrackListActivity extends AppCompatActivity {
         trackModels.add(new Track("MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
         trackModels.add(new Track("MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
         trackModels.add(new Track("MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
+    }
+
+    public void startPlaying (View v) {
+        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.shieldfrog);
+        mediaPlayer.start(); // no need to call prepare(); create() does that for you
     }
 
     public void addToFavorites(View v) {
