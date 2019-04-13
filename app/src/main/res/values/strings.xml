@@ -5,6 +5,7 @@
     <string name="artist">Artist</string>
     <string name="genre">Genre</string>
     <string name="duration">Duration</string>
-    <string name="add">Add</string>
+    <string name="favorite">Favorite</string>
     <string name="tracks_title">Tracks</string>
+    <string name="add_track">Add Track</string>
 </resources>
