@@ -17,7 +17,6 @@ import android.view.View;
 import com.example.ikpmd_eindopdracht.model.Track;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -28,7 +27,8 @@ import java.util.Date;
 public class AddTrackActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
-    private File image = new File("FILL IN");
+    private File imagePath = new File("/storage/emulated/0/Download/73igtt9khyd11.jpg");
+    private File trackPath = new File("/storage/emulated/0/Download/Ariana Grande - Thank u, next.mp3");
 
     private Track track = new Track("", "", "", "", new Date(), "");
 
@@ -57,11 +57,11 @@ public class AddTrackActivity extends AppCompatActivity {
     public void uploadImage(View v) {
         // TODO: 18/04/19 Filemanager openen i.p.v. hardoced jpg
 
-        String filename = image.toPath().getFileName().toString();
+        String filename = imagePath.toPath().getFileName().toString();
 
         Log.d("filename", "uploadImage: " + filename);
 
-        Uri file = Uri.fromFile(image);
+        Uri file = Uri.fromFile(imagePath);
         storageRef = FirebaseStorage.getInstance().getReference("images/");
         StorageReference imageRef = storageRef.child(filename);
 
@@ -79,7 +79,30 @@ public class AddTrackActivity extends AppCompatActivity {
         });
     }
 
-    private void uploadTrack() {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void uploadTrack(View v) {
+        // TODO: 18/04/19 Filemanager openen i.p.v. hardoced jpg
+
+        String filename = trackPath.toPath().getFileName().toString();
+
+        Log.d("filename", "uploadTrack: " + filename);
+
+        Uri file = Uri.fromFile(trackPath);
+        storageRef = FirebaseStorage.getInstance().getReference("tracks/");
+        StorageReference trackRef = storageRef.child(filename);
+
+        trackRef.putFile(file).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                track.setTrackURL(taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
+                Log.d("trackURL", "onSuccess: " + track.getTrackURL().toString());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+
+            }
+        });
     }
 
     public void addTrack(View v) {
