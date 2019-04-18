@@ -2,17 +2,20 @@ package com.example.ikpmd_eindopdracht;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.example.ikpmd_eindopdracht.database.RealtimeDatabaseController;
+import com.example.ikpmd_eindopdracht.model.Track;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,7 +34,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void write(View v) {
-        rdc.writeToDatabase("Fleur", "message");
+//        rdc.writeToDatabase("Fleur", "message");
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("tracks");
+//        DatabaseReference tracksRef = ref.child("tracks");
+
+        Map<String, Track> tracks = new HashMap<>();
+
+//        tracks.put("", new Track());
+//        tracks.put("", new Track());
+//        tracks.put("", new Track());
+//        tracks.put("", new Track());
+//        tracks.put("", new Track());
+
+        ref.setValue(tracks);
     }
 
     public void read(View v) {

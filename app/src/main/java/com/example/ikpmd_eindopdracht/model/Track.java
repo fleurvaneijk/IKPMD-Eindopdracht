@@ -14,16 +14,16 @@ public class Track implements Serializable {
     private String artist;
     private String genre;
     private Date duration;
-    private MediaPlayer track;
+    private String trackURL;
 
 
-    public Track(String image, String title, String artist, String genre, Date duration, MediaPlayer track) {
+    public Track(String image, String title, String artist, String genre, Date duration, String trackURL) {
         this.image = image;
         this.title = title;
         this.artist = artist;
         this.genre = genre;
         this.duration = duration;
-        this.track = track;
+        this.trackURL = trackURL;
     }
 
     public String getImage() {
@@ -66,11 +66,11 @@ public class Track implements Serializable {
         this.duration = duration;
     }
 
-    public MediaPlayer getTrack() {
-        return track;
+    public String getTrackURL() {
+        return trackURL;
     }
 
-    public void setTrack(MediaPlayer track) {
-        this.track = track;
+    public void setTrackURL(String track) {
+        this.trackURL = track;
     }
 }

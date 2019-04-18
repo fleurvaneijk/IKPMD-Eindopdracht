@@ -16,13 +16,13 @@
         android:layout_height="32dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:text="@string/title"
         android:textColor="#fafafa"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/subject_artist"
         app:layout_constraintStart_toEndOf="@+id/subject_image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="spread_inside"
-        tools:text="@string/title" />
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <TextView
         android:id="@+id/subject_artist"
@@ -69,20 +69,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/vier" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:textColor="#c7c7c7"
-        android:background="@color/colorPrimaryLight"
-        android:text="@string/add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.64"
-        app:layout_constraintStart_toEndOf="@+id/subject_duration"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--<Button-->
+        <!--android:id="@+id/button2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginStart="16dp"-->
+        <!--android:layout_marginTop="24dp"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--android:textColor="#c7c7c7"-->
+        <!--android:background="@color/colorPrimaryLight"-->
+        <!--android:text="@string/add"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.64"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/subject_duration"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
 
 </android.support.constraint.ConstraintLayout>

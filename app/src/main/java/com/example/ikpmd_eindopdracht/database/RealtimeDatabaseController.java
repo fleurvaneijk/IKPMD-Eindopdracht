@@ -10,24 +10,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.CountDownLatch;
+
 public class RealtimeDatabaseController extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference myRef;
+    private Object object;
 
-    public void writeToDatabase(Object object, String path) {
-        // Write a message to the database
+    public synchronized void writeToDatabase(Object object, String path) {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference(path);
-
         myRef.setValue(object);
     }
 
-    public Object readFromDatabase(String path) {
+    public synchronized Object readFromDatabase(String path) {
         final Object[] objectList = new Object[1];
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference(path);
+
+        final CountDownLatch done = new CountDownLatch(1);
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -37,9 +40,7 @@ public class RealtimeDatabaseController extends AppCompatActivity {
                 // whenever data at this location is updated.
                 Object value = dataSnapshot.getValue();
                 objectList[0] = value;
-
-                returnValue(value);
-
+                done.countDown();
                 Log.d("joopie", "Value is: " + value);
             }
 
@@ -48,16 +49,22 @@ public class RealtimeDatabaseController extends AppCompatActivity {
                 // Failed to read value
                 Log.w("joopie", "Failed to read value.", error.toException());
             }
-
-
         });
-        System.out.println(objectList[0]);
+
+        try {
+            done.await(); //it will wait till the response is received from firebase.
+        } catch(InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return objectList[0];
     }
 
-    public Object returnValue(Object value) {
-        return value;
-    }
-
+//    public void setObject(Object object) {
+//        this.object = object;
+//    }
+//
+//    public Object getObject() {
+//        return this.object;
+//    }
 }
