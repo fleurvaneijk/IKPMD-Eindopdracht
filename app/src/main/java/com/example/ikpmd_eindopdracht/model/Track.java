@@ -1,15 +1,11 @@
 package com.example.ikpmd_eindopdracht.model;
 
-import android.media.MediaPlayer;
-import android.provider.MediaStore;
-
-import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
 public class Track implements Serializable {
 
-    private String image;
+    private String imageURL;
     private String title;
     private String artist;
     private String genre;
@@ -17,8 +13,8 @@ public class Track implements Serializable {
     private String trackURL;
 
 
-    public Track(String image, String title, String artist, String genre, Date duration, String trackURL) {
-        this.image = image;
+    public Track(String imageURL, String title, String artist, String genre, Date duration, String trackURL) {
+        this.imageURL = imageURL;
         this.title = title;
         this.artist = artist;
         this.genre = genre;
@@ -26,12 +22,12 @@ public class Track implements Serializable {
         this.trackURL = trackURL;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageURL() {
+        return imageURL;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public String getTitle() {
