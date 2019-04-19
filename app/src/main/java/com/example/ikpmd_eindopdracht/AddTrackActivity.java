@@ -17,6 +17,8 @@ import android.view.View;
 import com.example.ikpmd_eindopdracht.model.Track;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -27,8 +29,9 @@ import java.util.Date;
 public class AddTrackActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
-    private File imagePath = new File("/storage/emulated/0/Download/73igtt9khyd11.jpg");
-    private File trackPath = new File("/storage/emulated/0/Download/Ariana Grande - Thank u, next.mp3");
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private File imagePath = new File("/storage/emulated/0/Download/73igtt9khyd11.jpg");    //only works on stan's phone
+    private File trackPath = new File("/storage/emulated/0/Download/Ariana Grande - Thank u, next.mp3");    //only works on stan's phone
 
     private Track track = new Track("", "", "", "", new Date(), "");
 
@@ -107,6 +110,8 @@ public class AddTrackActivity extends AppCompatActivity {
 
     public void addTrack(View v) {
         // TODO: 18/04/19 add track model to database
+        DatabaseReference myRef = this.database.getReference(this.track.getTitle());
+        myRef.setValue(this.track);
     }
 
     public void filechooser(View v) {
