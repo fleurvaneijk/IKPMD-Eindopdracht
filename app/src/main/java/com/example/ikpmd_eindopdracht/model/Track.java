@@ -12,6 +12,8 @@ public class Track implements Serializable {
     private int duration; //in seconds
     private String trackURL;
 
+    public Track() {
+    }
 
     public Track(String imageURL, String title, String artist, String genre, int duration, String trackURL) {
         this.imageURL = imageURL;

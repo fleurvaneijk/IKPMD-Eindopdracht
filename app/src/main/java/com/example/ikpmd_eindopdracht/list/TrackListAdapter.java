@@ -41,11 +41,13 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         } else {
             vh = (ViewHolder) convertView.getTag();
         }
+
         Track track = getItem(position);
+        System.out.println(track);
 
 //        Image img = track.getImageURL();
-        // TODO: 10/04/2019 image wordt als image opgeslagen in firebase, dus niet als string
 //        vh.image.setImageDrawable(track.getImageURL());
+        System.out.println(track.getTitle());
         vh.title.setText(track.getTitle());
         vh.artist.setText(track.getArtist());
         vh.genre.setText(track.getGenre());
