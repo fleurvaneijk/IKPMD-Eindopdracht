@@ -1,10 +1,15 @@
 package com.example.ikpmd_eindopdracht;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.os.ParcelFileDescriptor;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -24,18 +29,20 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
 
 public class AddTrackActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private File imagePath = new File("/document/image:148931");    //only works on stan's phone
+    private File imagePath = new File("/storage/emulated/0/Download/73igtt9khyd11.jpg");    //only works on stan's phone
     private File trackPath = new File("/storage/emulated/0/Download/Ariana Grande - Thank u, next.mp3");    //only works on stan's phone
 
     private Track track = new Track("", "", "", "", 0, "");
+
+    private Intent requestFileIntent;
+    private ParcelFileDescriptor inputPFD;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,22 +150,41 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
         // Check which request we're responding to
         if (requestCode == 1 && resultCode == RESULT_OK) {
 
+            Uri returnUri = returnIntent.getData();
+            Log.d("yo: ", "" + returnUri);
+            Cursor returnCursor = getContentResolver().query(returnUri, null, null, null, null);
+            Log.d("yo: ", "" + returnCursor);
 
-            String path = data.getData().getPath();
-            Log.d("path", "" + path);
+            /*
+             * Get the column indexes of the data in the Cursor,
+             * move to the first row in the Cursor, get the data,
+             * and display it.
+             */
 
-            File file = new File(data.getData().getPath());
-            Log.d("onActivityResult", "" + file.getAbsolutePath());
+            File directory = Environment.getExternalStorageDirectory();
 
-            Uri file2 = Uri.fromFile(imagePath);
-            Log.d("uri shit", "onActivityResult: " + file2);
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
+            returnCursor.moveToFirst();
 
-            List<String> pathSegements = data.getData().getPathSegments();
-            Log.d("pathsegements", "onActivityResult: " + pathSegements);
+            Log.d("yo: ","" + directory + "/" + returnCursor.getString(nameIndex));
+
+
+//            String path = data.getData().getPath();
+//            Log.d("path", "" + path);
+//
+//            File file = new File(data.getData().getPath());
+//            Log.d("onActivityResult", "" + file.getAbsolutePath());
+//
+//            Uri file2 = Uri.fromFile(imagePath);
+//            Log.d("uri shit", "onActivityResult: " + file2);
+//
+//            List<String> pathSegements = data.getData().getPathSegments();
+//            Log.d("pathsegements", "onActivityResult: " + pathSegements);
 
 
 //            URL file3 =
