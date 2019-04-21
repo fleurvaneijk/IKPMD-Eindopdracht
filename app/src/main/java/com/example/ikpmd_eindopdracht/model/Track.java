@@ -9,11 +9,11 @@ public class Track implements Serializable {
     private String title;
     private String artist;
     private String genre;
-    private Date duration;
+    private int duration; //in seconds
     private String trackURL;
 
 
-    public Track(String imageURL, String title, String artist, String genre, Date duration, String trackURL) {
+    public Track(String imageURL, String title, String artist, String genre, int duration, String trackURL) {
         this.imageURL = imageURL;
         this.title = title;
         this.artist = artist;
@@ -54,11 +54,11 @@ public class Track implements Serializable {
         this.genre = genre;
     }
 
-    public Date getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(Date duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
 

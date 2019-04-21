@@ -24,21 +24,24 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.util.Date;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddTrackActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private File imagePath = new File("/storage/emulated/0/Download/73igtt9khyd11.jpg");    //only works on stan's phone
+    private File imagePath = new File("/document/image:148931");    //only works on stan's phone
     private File trackPath = new File("/storage/emulated/0/Download/Ariana Grande - Thank u, next.mp3");    //only works on stan's phone
 
-    private Track track = new Track("", "", "", "", new Date(), "");
+    private Track track = new Track("", "", "", "", 0, "");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_track);
+//        duration();
     }
 
 
@@ -115,29 +118,94 @@ public class AddTrackActivity extends AppCompatActivity {
     }
 
     public void filechooser(View v) {
-
+        //Permission is not yet granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-
-            Log.d("filechooser", " 1e if");
-
+            //Permission has been previously asked and denied
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-                Log.d("filechooser", " 2e if");
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.setType("images/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(intent, 1337);
-            } else {
-
-                Log.d("filechooser", "else");
-
+            }
+            //Permission has not been asked yet -> so will ask
+            else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
         }
+        //Permission is granted
+        else if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("image/*");
+//            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//            startActivityForResult(intent, 1337);
+
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
+        }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+
+
+            String path = data.getData().getPath();
+            Log.d("path", "" + path);
+
+            File file = new File(data.getData().getPath());
+            Log.d("onActivityResult", "" + file.getAbsolutePath());
+
+            Uri file2 = Uri.fromFile(imagePath);
+            Log.d("uri shit", "onActivityResult: " + file2);
+
+            List<String> pathSegements = data.getData().getPathSegments();
+            Log.d("pathsegements", "onActivityResult: " + pathSegements);
+
+
+//            URL file3 =
+
+            // Make sure the request was successful
+            // The user picked a contact.
+            // The Intent's data Uri identifies which contact was selected.
+            // Do something with the contact here (bigger example below)
+        }
+    }
+
+
+//    public void duration() {
+//
+//
+//        Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
+//        StorageReference riversRef = storageRef.child("images/rivers.jpg");
+//
+//        File localFile = null;
+//        try {
+//            localFile = File.createTempFile("images", "jpg");
+//            riversRef.getFile(localFile)
+//                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                            // Successfully downloaded data to local file
+//                            // ...
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception exception) {
+//                    // Handle failed download
+//                    // ...
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        MediaPlayer mediaPlayer = new MediaPlayer();
+//        try {
+//            mediaPlayer.setDataSource(trackPath.toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        int duration = mediaPlayer.getDuration();
+//        Log.d("duration:", "" + duration);
+//    }
 }

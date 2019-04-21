@@ -23,6 +23,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.562" />
 
+    <Button
+        android:id="@+id/TrackPicker"
+        android:layout_width="129dp"
+        android:layout_height="127dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Pick Track"
+        app:layout_constraintBottom_toTopOf="@+id/TitleField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toEndOf="@+id/ImagePicker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.575" />
+
     <EditText
         android:id="@+id/TitleField"
         android:layout_width="wrap_content"
@@ -57,40 +73,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.483" />
 
-    <Spinner
-        android:id="@+id/GenreDropdown"
-        android:layout_width="213dp"
-        android:layout_height="45dp"
+    <EditText
+        android:id="@+id/GenreField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:spinnerMode="dropdown"
-        android:visibility="visible"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Genre"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="0.573" />
 
     <Button
-        android:id="@+id/TrackPicker"
-        android:layout_width="129dp"
-        android:layout_height="127dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Pick Track"
-        app:layout_constraintBottom_toTopOf="@+id/TitleField"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
-        app:layout_constraintStart_toEndOf="@+id/ImagePicker"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.575" />
-
-    <Button
-        android:id="@+id/button8"
+        android:id="@+id/ConfirmBtn"
         android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -98,16 +99,16 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/holo_green_dark"
+        android:onClick="uploadImage"
         android:text="Add Track"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.433"
-        app:layout_constraintStart_toEndOf="@+id/button9"
-        app:layout_constraintTop_toBottomOf="@+id/GenreDropdown"
-        app:layout_constraintVertical_bias="0.441" />
+        app:layout_constraintStart_toEndOf="@+id/CancelBtn"
+        app:layout_constraintTop_toBottomOf="@+id/GenreField" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/CancelBtn"
         android:layout_width="113dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -120,6 +121,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.195"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/GenreDropdown"
-        app:layout_constraintVertical_bias="0.441" />
+        app:layout_constraintTop_toBottomOf="@+id/GenreField" />
+
 </android.support.constraint.ConstraintLayout>
