@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
@@ -154,11 +155,17 @@ public class AddTrackActivity extends AppCompatActivity {
         // Check which request we're responding to
         if (requestCode == 1 && resultCode == RESULT_OK) {
 
-            Uri returnUri = returnIntent.getData();
-            Log.d("yo: ", "" + returnUri);
-            Cursor returnCursor = getContentResolver().query(returnUri, null, null, null, null);
-            Log.d("yo: ", "" + returnCursor);
+            Uri selectedImage = returnIntent.getData();
+            Log.d("URI", "" + selectedImage);
+            String returnUriSplit[] = selectedImage.toString().split("/");
+            String folder = returnUriSplit[2];
+            Log.d("FOLDER", "" + folder);
 
+            String filePath = selectedImage.getPath();
+            String file_extn = filePath.substring(filePath.lastIndexOf(".") + 1);
+            Log.d("TEST", "" + file_extn);
+
+            Cursor returnCursor = getContentResolver().query(selectedImage, null, null, null, null);
             /*
              * Get the column indexes of the data in the Cursor,
              * move to the first row in the Cursor, get the data,
@@ -169,9 +176,9 @@ public class AddTrackActivity extends AppCompatActivity {
 
             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
             int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
-            returnCursor.moveToFirst();
 
-            Log.d("yo: ","" + directory + "/" + returnCursor.getString(nameIndex));
+
+            Log.d("FILE","" + returnCursor.getString(nameIndex));
 
 
 //            String path = data.getData().getPath();
