@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.ikpmd_eindopdracht.model.Track;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -116,6 +117,16 @@ public class AddTrackActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void getInputValues(View v) {
+        String title = ((EditText)findViewById(R.id.TitleField)).getText().toString();
+        String artist = ((EditText)findViewById(R.id.ArtistField)).getText().toString();
+        String genre = ((EditText)findViewById(R.id.GenreField)).getText().toString();
+
+        this.track.setTitle(title);
+        this.track.setArtist(artist);
+        this.track.setGenre(genre);
     }
 
     public void addTrack(View v) {
