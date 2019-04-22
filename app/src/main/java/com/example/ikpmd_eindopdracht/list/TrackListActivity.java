@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -46,8 +47,7 @@ public class TrackListActivity extends AppCompatActivity {
         });
 
         fillTheModels();
-        trackAdapter = new TrackListAdapter(TrackListActivity.this, 0, trackModels);
-        mListView.setAdapter(trackAdapter);
+
     }
 
     public void addTrackToDatabase(View v) {
@@ -62,24 +62,25 @@ public class TrackListActivity extends AppCompatActivity {
     private void fillTheModels() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("TestTrack1");
+        DatabaseReference myRef = database.getReference("Tracks");
 
-        final Track[] track = new Track[1];
-
-
-        // TODO: 21/04/19 THREADS (ASYNC) 
+        // TODO: 21/04/19 THREADS (ASYNC)
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                track[0] = dataSnapshot.getValue(Track.class);
-                Log.d("SUCCESS", "Value is: " + track[0]);
 
-                Track realTrack = new Track(track[0].getImageURL(), track[0].getTitle(),track[0].getArtist(),track[0].getGenre(),track[0].getDuration(),track[0].getTrackURL());
+                List<Track> trackList;
 
-                trackModels.add(realTrack);
+                for (DataSnapshot d: dataSnapshot.getChildren()){
+                    Track track = d.getValue(Track.class);
+                    trackModels.add(track);
+                }
+
+                trackAdapter = new TrackListAdapter(TrackListActivity.this, 0, trackModels);
+                mListView.setAdapter(trackAdapter);
             }
 
             @Override
@@ -89,8 +90,8 @@ public class TrackListActivity extends AppCompatActivity {
             }
         });
 
-        trackModels.add(new Track("https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/images%2Fa_1.jpeg?alt=media&token=11308a2f-bc14-4ce3-bb1b-33ef93d1243f",
-                "Shield Frog", "Color Glitch", "Electronic",1, "https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/tracks%2FAriana%20Grande%20-%20Thank%20u%2C%20next.mp3?alt=media&token=a5c41817-9b6a-4757-a67a-6d53ab2e4bf4"));
+//        trackModels.add(new Track("https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/images%2Fa_1.jpeg?alt=media&token=11308a2f-bc14-4ce3-bb1b-33ef93d1243f",
+//                "Shield Frog", "Color Glitch", "Electronic",1, "https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/tracks%2FAriana%20Grande%20-%20Thank%20u%2C%20next.mp3?alt=media&token=a5c41817-9b6a-4757-a67a-6d53ab2e4bf4"));
 
 
 //        trackModels.add(new Track("@drawable/twee","Underwater Disco", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
