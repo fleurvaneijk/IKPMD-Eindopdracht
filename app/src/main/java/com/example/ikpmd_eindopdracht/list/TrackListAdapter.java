@@ -2,13 +2,16 @@ package com.example.ikpmd_eindopdracht.list;
 
 import android.content.Context;
 import android.media.Image;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ikpmd_eindopdracht.R;
 import com.example.ikpmd_eindopdracht.model.Track;
@@ -42,8 +45,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        Track track = getItem(position);
-        System.out.println(track);
+        final Track track = getItem(position);
 
 //        Image img = track.getImageURL();
 //        vh.image.setImageDrawable(track.getImageURL());
@@ -52,7 +54,15 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         vh.artist.setText(track.getArtist());
         vh.genre.setText(track.getGenre());
 //        vh.duration.setText(track.getDuration());
-//        vh.track.setText(track.getTrack());
+
+        convertView.setOnClickListener(new AdapterView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrackListActivity trackListActivity = new TrackListActivity();
+                trackListActivity.setSelectedTrack(track);
+            }
+        });
+
         return convertView;
     }
 

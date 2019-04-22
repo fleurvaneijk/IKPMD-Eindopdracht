@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,10 @@ public class TrackListActivity extends AppCompatActivity {
     private ListView mListView;
     private TrackListAdapter trackAdapter;
     private List<Track> trackModels = new ArrayList<>();
+    private Track selectedTrack;
+
+    public TrackListActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,21 +55,11 @@ public class TrackListActivity extends AppCompatActivity {
 
     }
 
-    public void addTrackToDatabase(View v) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("TestTrack1");
-        myRef.setValue(new Track("https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/images%2Fa_1.jpeg?alt=media&token=11308a2f-bc14-4ce3-bb1b-33ef93d1243f",
-                                    "Thank you, next", "Ariana Grande", "Pop", 150,
-                            "https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/tracks%2FAriana%20Grande%20-%20Thank%20u%2C%20next.mp3?alt=media&token=a5c41817-9b6a-4757-a67a-6d53ab2e4bf4"));
-    }
-
-
     private void fillTheModels() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Tracks");
 
-        // TODO: 21/04/19 THREADS (ASYNC)
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -89,26 +84,34 @@ public class TrackListActivity extends AppCompatActivity {
                 Log.w("ERROR", "Failed to read value.", error.toException());
             }
         });
-
-//        trackModels.add(new Track("https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/images%2Fa_1.jpeg?alt=media&token=11308a2f-bc14-4ce3-bb1b-33ef93d1243f",
-//                "Shield Frog", "Color Glitch", "Electronic",1, "https://firebasestorage.googleapis.com/v0/b/ikpmd-eindopdracht.appspot.com/o/tracks%2FAriana%20Grande%20-%20Thank%20u%2C%20next.mp3?alt=media&token=a5c41817-9b6a-4757-a67a-6d53ab2e4bf4"));
-
-
-//        trackModels.add(new Track("@drawable/twee","Underwater Disco", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/drie", "Ozone Drive", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/vier", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/vijf", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/zes", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/zeven", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/acht", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/negen", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/tien", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
-//        trackModels.add(new Track("@drawable/ozone", "MAJOR ASS", "Color Glitch", "Electronic", new Date(1999, 6, 28, 0, 3, 12), MediaPlayer.create(getBaseContext(), R.raw.shieldfrog)));
     }
 
-    public void startPlaying (View v) {
-        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.shieldfrog);
-        mediaPlayer.start(); // no need to call prepare(); create() does that for you
+    public void startPlaying () {
+
+        String trackPath = this.selectedTrack.getTrackURL();
+
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(trackPath);
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    if(mp.isPlaying()){
+                        mp.stop();
+                    }
+                    mp.start();
+                }
+            });
+
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setSelectedTrack(Track selectedTrack){
+        this.selectedTrack = selectedTrack;
+        this.startPlaying();
     }
 
     public void addToFavorites(View v) {
