@@ -86,6 +86,7 @@ public class TrackListActivity extends AppCompatActivity {
         });
     }
 
+    // TODO: 22/04/19 app crashes when switching song (too much on his plate :c) 
     public void startPlaying () {
 
         String trackPath = this.selectedTrack.getTrackURL();
