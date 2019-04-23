@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,6 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         vh.title.setText(track.getTitle());
         vh.artist.setText(track.getArtist());
         vh.genre.setText(track.getGenre());
-//        vh.duration.setText(track.getDuration());
 
         convertView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
@@ -79,7 +79,6 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
 
     // TODO: 22/04/19 app crashes when switching song (too much on his plate :c)
     public void startPlaying (Track track) {
-
         MediaPlayer mediaPlayer = new MediaPlayer();
         try {
             mediaPlayer.setDataSource(track.getTrackURL());
@@ -92,7 +91,6 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
                     mp.start();
                 }
             });
-
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();

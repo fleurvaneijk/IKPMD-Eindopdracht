@@ -19,11 +19,11 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
     private StorageReference mStorageRef;
 
     private RealtimeDatabaseController rdc = new RealtimeDatabaseController();
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +34,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void write(View v) {
-//        rdc.writeToDatabase("Fleur", "message");
-
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("tracks");
-//        DatabaseReference tracksRef = ref.child("tracks");
-
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("tracks");
         Map<String, Track> tracks = new HashMap<>();
 
-//        tracks.put("", new Track());
-//        tracks.put("", new Track());
-//        tracks.put("", new Track());
-//        tracks.put("", new Track());
-//        tracks.put("", new Track());
-
-        ref.setValue(tracks);
+        myRef.setValue(tracks);
     }
 
     public void read(View v) {
         Object object = rdc.readFromDatabase("message");
-        System.out.println(object);
     }
 
     public void openAddTrackActivity(View v) {

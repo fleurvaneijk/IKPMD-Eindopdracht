@@ -1,6 +1,5 @@
 package com.example.ikpmd_eindopdracht.list;
 
-import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,17 +14,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TrackListActivity extends AppCompatActivity {
 
-    MediaPlayer mediaPlayer;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
     private ListView mListView;
     private TrackListAdapter trackAdapter;
@@ -51,21 +48,15 @@ public class TrackListActivity extends AppCompatActivity {
         });
 
         fillTheModels();
-
     }
 
     private void fillTheModels() {
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("Tracks");
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Tracks");
-
-        // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-
                 List<Track> trackList;
 
                 for (DataSnapshot d: dataSnapshot.getChildren()){
@@ -79,8 +70,7 @@ public class TrackListActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w("ERROR", "Failed to read value.", error.toException());
+                Log.d("ERROR", "Failed to read value.", error.toException());
             }
         });
     }
@@ -88,6 +78,4 @@ public class TrackListActivity extends AppCompatActivity {
     public void addToFavorites(View v) {
 
     }
-
-
 }

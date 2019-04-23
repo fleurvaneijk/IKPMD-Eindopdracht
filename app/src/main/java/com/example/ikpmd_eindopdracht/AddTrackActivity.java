@@ -1,7 +1,6 @@
 package com.example.ikpmd_eindopdracht;
 
 import android.Manifest;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -30,28 +29,22 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 public class AddTrackActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
     private File imagePath = new File("/storage/emulated/0/Download/73igtt9khyd11.jpg");    //only works on stan's phone
     private File trackPath = new File("/storage/emulated/0/Download/Ariana Grande - Thank u, next.mp3");    //only works on stan's phone
 
     private Track track = new Track("", "", "", "", 0, "");
 
-    private Intent requestFileIntent;
-    private ParcelFileDescriptor inputPFD;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_track);
-//        duration();
     }
-
 
     public void pickImage(View v) {
         // TODO: 18/04/19 opens filechooser and remembers image
@@ -72,7 +65,6 @@ public class AddTrackActivity extends AppCompatActivity {
         // TODO: 18/04/19 Filemanager openen i.p.v. hardoced jpg
 
         String filename = imagePath.toPath().getFileName().toString();
-
         Log.d("filename", "uploadImage: " + filename);
 
         Uri file = Uri.fromFile(imagePath);
@@ -131,28 +123,24 @@ public class AddTrackActivity extends AppCompatActivity {
 
     public void addTrack(View v) {
         // TODO: 18/04/19 add track model to database
+
         DatabaseReference myRef = this.database.getReference(this.track.getTitle());
         myRef.setValue(this.track);
     }
 
     public void filechooser(View v) {
-        //Permission is not yet granted
+//        Permission is not yet granted
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            //Permission has been previously asked and denied
+//            Permission has been previously asked and denied
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
             }
-            //Permission has not been asked yet -> so will ask
+//            Permission has not been asked yet -> so will ask
             else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
         }
-        //Permission is granted
+//        Permission is granted
         else if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-//            intent.setType("image/*");
-//            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//            startActivityForResult(intent, 1337);
-
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -162,28 +150,16 @@ public class AddTrackActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
-        // Check which request we're responding to
         if (requestCode == 1 && resultCode == RESULT_OK) {
-
             Uri returnUri = returnIntent.getData();
-            Log.d("yo: ", "" + returnUri);
+            Log.d("uri", "" + returnUri);
+
             Cursor returnCursor = getContentResolver().query(returnUri, null, null, null, null);
-            Log.d("yo: ", "" + returnCursor);
-
-            /*
-             * Get the column indexes of the data in the Cursor,
-             * move to the first row in the Cursor, get the data,
-             * and display it.
-             */
-
-            File directory = Environment.getExternalStorageDirectory();
+            Log.d("cursor", "" + returnCursor);
 
             int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            int sizeIndex = returnCursor.getColumnIndex(OpenableColumns.SIZE);
             returnCursor.moveToFirst();
-
-            Log.d("yo: ","" + directory + "/" + returnCursor.getString(nameIndex));
-
+            Log.d("filename","" + returnCursor.getString(nameIndex));
 
 //            String path = data.getData().getPath();
 //            Log.d("path", "" + path);
@@ -197,20 +173,11 @@ public class AddTrackActivity extends AppCompatActivity {
 //            List<String> pathSegements = data.getData().getPathSegments();
 //            Log.d("pathsegements", "onActivityResult: " + pathSegements);
 
-
 //            URL file3 =
-
-            // Make sure the request was successful
-            // The user picked a contact.
-            // The Intent's data Uri identifies which contact was selected.
-            // Do something with the contact here (bigger example below)
         }
     }
 
-
 //    public void duration() {
-//
-//
 //        Uri file = Uri.fromFile(new File("path/to/images/rivers.jpg"));
 //        StorageReference riversRef = storageRef.child("images/rivers.jpg");
 //
@@ -234,7 +201,6 @@ public class AddTrackActivity extends AppCompatActivity {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-//
 //
 //        MediaPlayer mediaPlayer = new MediaPlayer();
 //        try {
