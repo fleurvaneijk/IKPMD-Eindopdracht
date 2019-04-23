@@ -2,6 +2,7 @@ package com.example.ikpmd_eindopdracht.list;
 
 import android.content.Context;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.example.ikpmd_eindopdracht.R;
 import com.example.ikpmd_eindopdracht.model.Track;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.function.ToDoubleBiFunction;
@@ -58,12 +60,33 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         convertView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TrackListActivity trackListActivity = new TrackListActivity();
-                trackListActivity.setSelectedTrack(track);
+                startPlaying(track);
             }
         });
 
         return convertView;
+    }
+
+    // TODO: 22/04/19 app crashes when switching song (too much on his plate :c)
+    public void startPlaying (Track track) {
+
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource(track.getTrackURL());
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    if(mp.isPlaying()){
+                        mp.stop();
+                    }
+                    mp.start();
+                }
+            });
+
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static class ViewHolder {

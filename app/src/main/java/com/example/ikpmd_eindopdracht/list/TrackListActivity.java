@@ -30,7 +30,6 @@ public class TrackListActivity extends AppCompatActivity {
     private ListView mListView;
     private TrackListAdapter trackAdapter;
     private List<Track> trackModels = new ArrayList<>();
-    private Track selectedTrack;
 
     public TrackListActivity() {
     }
@@ -84,35 +83,6 @@ public class TrackListActivity extends AppCompatActivity {
                 Log.w("ERROR", "Failed to read value.", error.toException());
             }
         });
-    }
-
-    // TODO: 22/04/19 app crashes when switching song (too much on his plate :c) 
-    public void startPlaying () {
-
-        String trackPath = this.selectedTrack.getTrackURL();
-
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(trackPath);
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    if(mp.isPlaying()){
-                        mp.stop();
-                    }
-                    mp.start();
-                }
-            });
-
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setSelectedTrack(Track selectedTrack){
-        this.selectedTrack = selectedTrack;
-        this.startPlaying();
     }
 
     public void addToFavorites(View v) {
