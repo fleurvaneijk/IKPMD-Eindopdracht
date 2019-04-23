@@ -28,6 +28,8 @@ public class TrackListActivity extends AppCompatActivity {
     private TrackListAdapter trackAdapter;
     private List<Track> trackModels = new ArrayList<>();
 
+
+
     public TrackListActivity() {
     }
 
