@@ -14,15 +14,10 @@ import com.example.ikpmd_eindopdracht.fragment.AccountFragment;
 import com.example.ikpmd_eindopdracht.fragment.PlaylistFragment;
 import com.example.ikpmd_eindopdracht.fragment.StatisticsFragment;
 import com.example.ikpmd_eindopdracht.fragment.TracksFragment;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
     private StorageReference mStorageRef;
     private DrawerLayout drawer;
 
@@ -42,8 +37,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_closed);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        mStorageRef = FirebaseStorage.getInstance().getReference();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TracksFragment()).commit();
