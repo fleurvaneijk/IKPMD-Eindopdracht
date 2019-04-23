@@ -21,13 +21,17 @@ import com.example.ikpmd_eindopdracht.model.Track;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.ToDoubleBiFunction;
 
+import service.MediaPlayerService;
+
 public class TrackListAdapter extends ArrayAdapter<Track> {
 
-    private Track track;
+    private MediaPlayer mediaPlayer = new MediaPlayer();
+    private ArrayList<MediaPlayerService> list = new ArrayList<MediaPlayerService>();
 
     private class ViewHolder {
         AppCompatImageView image;
@@ -59,7 +63,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        this.track = getItem(position);
+        final Track track = getItem(position);
 
 //        Image img = track.getImageURL();
 //        vh.image.setImageURI(track.getImageURL());
@@ -67,33 +71,98 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         vh.artist.setText(track.getArtist());
         vh.genre.setText(track.getGenre());
 
+
         convertView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startPlaying(track);
+
+                MediaPlayerService mediaPlayerService = new MediaPlayerService(track.getTrackURL());
+
+                if(!list.isEmpty()) {
+                    System.out.println(list.get(0));
+                    MediaPlayerService thread = list.get(0);
+                    thread.stopTrack();
+                    list.clear();
+                    list.add(mediaPlayerService);
+                }
+                else {
+                    list.add(mediaPlayerService);
+                }
+
+                mediaPlayerService.start();
+
             }
         });
 
         return convertView;
     }
 
-    // TODO: 22/04/19 app crashes when switching song (too much on his plate :c)
-    public void startPlaying (Track track) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource(track.getTrackURL());
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    if(mp.isPlaying()){
-                        mp.stop();
-                    }
-                    mp.start();
-                }
-            });
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
+//    class PlayMusicThread extends Thread {
+//
+//        private volatile PlayMusicThread playMusicThread;
+//
+//        String TAG = "PlayMusicThread";
+//        MediaPlayer mediaPlayer = new MediaPlayer();
+//        String trackURL;
+//
+//        private PlayMusicThread() {
+//        }
+//
+//        public PlayMusicThread getInstance(){
+//            return playMusicThread;
+//        }
+//
+//
+//        public void setTrackURL(String trackURL){
+//            this.trackURL = trackURL;
+//        }
+//
+//        @Override
+//        public void run() {
+//            try {
+//                if(mediaPlayer.isPlaying()){
+//                    Log.d(TAG, "run: yoooo stopt");
+//                    mediaPlayer.stop();
+//                    mediaPlayer.reset();
+//                }
+//                mediaPlayer.setDataSource(trackURL);
+//                mediaPlayer.prepareAsync();
+//                mediaPlayer.start();
+//                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                    @Override
+//                    public void onPrepared(MediaPlayer mp) {
+//                        try {
+//                            mp.prepare();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        mp.start();
+//                    }
+//                });
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+
+//    // TODO: 22/04/19 app crashes when switching song (too much on his plate :c)
+//    public void startPlaying (Track track) {
+//        MediaPlayer mediaPlayer = new MediaPlayer();
+//        try {
+//            mediaPlayer.setDataSource(track.getTrackURL());
+//            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                @Override
+//                public void onPrepared(MediaPlayer mp) {
+//                    if(mp.isPlaying()){
+//                        mp.stop();
+//                    }
+//                    mp.start();
+//                }
+//            });
+//            mediaPlayer.prepare();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
