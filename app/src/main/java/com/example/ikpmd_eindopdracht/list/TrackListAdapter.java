@@ -3,6 +3,7 @@ package com.example.ikpmd_eindopdracht.list;
 import android.content.Context;
 import android.media.Image;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
@@ -25,6 +26,16 @@ import java.util.function.ToDoubleBiFunction;
 
 public class TrackListAdapter extends ArrayAdapter<Track> {
 
+    private Track track;
+
+    private class ViewHolder {
+        AppCompatImageView image;
+        TextView title;
+        TextView artist;
+        TextView genre;
+        TextView duration;
+    }
+
     public TrackListAdapter(Context context, int resource, List<Track> objects){
         super(context, resource, objects);
     }
@@ -37,7 +48,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
             vh = new ViewHolder();
             LayoutInflater li = LayoutInflater.from(getContext());
             convertView = li.inflate(R.layout.view_content_row, parent, false);
-//            vh.image = (AppCompatImageView) convertView.findViewById(R.id.subject_image);
+            vh.image = convertView.findViewById(R.id.subject_image);
             vh.title = convertView.findViewById(R.id.subject_title);
             vh.artist = convertView.findViewById(R.id.subject_artist);
             vh.genre = convertView.findViewById(R.id.subject_genre);
@@ -47,11 +58,10 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
             vh = (ViewHolder) convertView.getTag();
         }
 
-        final Track track = getItem(position);
+        this.track = getItem(position);
 
 //        Image img = track.getImageURL();
-//        vh.image.setImageDrawable(track.getImageURL());
-        System.out.println(track.getTitle());
+//        vh.image.setImageURI(track.getImageURL());
         vh.title.setText(track.getTitle());
         vh.artist.setText(track.getArtist());
         vh.genre.setText(track.getGenre());
@@ -87,14 +97,5 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static class ViewHolder {
-//        AppCompatImageView image;
-        TextView title;
-        TextView artist;
-        TextView genre;
-        TextView duration;
-        TextView track;
     }
 }
