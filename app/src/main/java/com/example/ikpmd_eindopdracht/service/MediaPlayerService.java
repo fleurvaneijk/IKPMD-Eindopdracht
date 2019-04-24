@@ -1,4 +1,4 @@
-package service;
+package com.example.ikpmd_eindopdracht.service;
 
 import android.media.MediaPlayer;
 
