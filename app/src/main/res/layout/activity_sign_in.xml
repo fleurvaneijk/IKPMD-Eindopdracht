@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="162dp"
         android:layout_marginBottom="340dp"
-        android:onClick="signIn"
+        android:onClick="openTest"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -73,6 +73,10 @@ public class SignInActivity extends AppCompatActivity {
     private void updateUI2(FirebaseUser currentUser) {
     }
 
+    public void openTest(View v) {
+        startActivity(new Intent(SignInActivity.this, SignUpTestActivity.class));
+    }
+
     public void signIn(View v) {
         Log.d("kaas", "sigi in view");
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();

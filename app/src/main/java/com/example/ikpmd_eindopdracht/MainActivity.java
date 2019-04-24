@@ -14,7 +14,11 @@ import com.example.ikpmd_eindopdracht.fragment.AccountFragment;
 import com.example.ikpmd_eindopdracht.fragment.PlaylistFragment;
 import com.example.ikpmd_eindopdracht.fragment.StatisticsFragment;
 import com.example.ikpmd_eindopdracht.fragment.TracksFragment;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
