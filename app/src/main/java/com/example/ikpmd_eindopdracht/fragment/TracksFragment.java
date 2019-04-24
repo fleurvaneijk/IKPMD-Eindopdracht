@@ -48,6 +48,8 @@ public class TracksFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                trackModels.clear();
+
                 for (DataSnapshot d: dataSnapshot.getChildren()){
                     Track track = d.getValue(Track.class);
                     trackModels.add(track);
