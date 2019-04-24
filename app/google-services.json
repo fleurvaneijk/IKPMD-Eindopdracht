@@ -21,6 +21,18 @@
             "package_name": "com.example.ikpmd_eindopdracht",
             "certificate_hash": "4bf288bbda844a1796e7eb83e74a83a1d101982e"
           }
+        },
+        {
+          "client_id": "420379333178-qod9epvtngk0hr8rs438m4ih852b4l4l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ikpmd_eindopdracht",
+            "certificate_hash": "a0b80fb3621c039da9a6d5c8882cbab83117dcae"
+          }
+        },
+        {
+          "client_id": "420379333178-pue5hnib7hcaiaft3h9v3nm03sgapku5.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
@@ -32,7 +44,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "420379333178-o26sn46ddi9affq2utvfgqa0l3sckgaj.apps.googleusercontent.com",
+              "client_id": "420379333178-pue5hnib7hcaiaft3h9v3nm03sgapku5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

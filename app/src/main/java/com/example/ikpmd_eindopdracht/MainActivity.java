@@ -1,5 +1,6 @@
 package com.example.ikpmd_eindopdracht;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,6 +15,7 @@ import com.example.ikpmd_eindopdracht.fragment.AccountFragment;
 import com.example.ikpmd_eindopdracht.fragment.PlaylistFragment;
 import com.example.ikpmd_eindopdracht.fragment.StatisticsFragment;
 import com.example.ikpmd_eindopdracht.fragment.TracksFragment;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.storage.StorageReference;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void onSignOutClicked() {
-        //sign out
+        AuthUI.getInstance().signOut(this);
+        startActivity(new Intent(MainActivity.this, SignInActivity.class));
     }
 }
