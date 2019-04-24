@@ -1,5 +1,6 @@
 package com.example.ikpmd_eindopdracht;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.ikpmd_eindopdracht.fragment.AccountFragment;
 import com.example.ikpmd_eindopdracht.fragment.PlaylistFragment;
@@ -79,5 +81,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onSignOutClicked() {
         //sign out
+    }
+
+    public void addTrack(View v){
+        startActivity(new Intent(this, AddTrackActivity.class));
     }
 }
