@@ -8,4 +8,7 @@
     <string name="favorite">Favorite</string>
     <string name="tracks_title">Tracks</string>
     <string name="add_track">Add Track</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_closed">Close navigation drawer</string>
 </resources>
