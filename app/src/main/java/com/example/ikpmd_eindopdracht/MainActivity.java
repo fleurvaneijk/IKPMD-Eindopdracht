@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.ikpmd_eindopdracht.fragment.AccountFragment;
 import com.example.ikpmd_eindopdracht.fragment.PlaylistFragment;
@@ -82,5 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onSignOutClicked() {
         AuthUI.getInstance().signOut(this);
         startActivity(new Intent(MainActivity.this, SignInActivity.class));
+    }
+
+    public void addTrack(View v){
+        startActivity(new Intent(this, AddTrackActivity.class));
     }
 }

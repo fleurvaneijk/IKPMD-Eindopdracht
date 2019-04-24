@@ -111,7 +111,7 @@ public class AddTrackActivity extends AppCompatActivity {
         });
     }
 
-    public void getInputValues(View v) {
+    public void getInputValues() {
         String title = ((EditText)findViewById(R.id.TitleField)).getText().toString();
         String artist = ((EditText)findViewById(R.id.ArtistField)).getText().toString();
         String genre = ((EditText)findViewById(R.id.GenreField)).getText().toString();
@@ -123,6 +123,8 @@ public class AddTrackActivity extends AppCompatActivity {
 
     public void addTrack(View v) {
         // TODO: 18/04/19 add track model to database
+
+        this.getInputValues();
 
         DatabaseReference myRef = this.database.getReference(this.track.getTitle());
         myRef.setValue(this.track);
@@ -211,4 +213,8 @@ public class AddTrackActivity extends AppCompatActivity {
 //        int duration = mediaPlayer.getDuration();
 //        Log.d("duration:", "" + duration);
 //    }
+
+    public void cancel(View v) {
+        startActivity(new Intent(this, MainActivity.class));
+    }
 }
