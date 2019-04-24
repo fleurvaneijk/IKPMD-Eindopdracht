@@ -35,7 +35,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 
@@ -47,11 +46,9 @@ public class AddTrackActivity extends AppCompatActivity {
     Button btn_upload;
     ImageView image_view;
     AlertDialog dialog;
-
-    StorageReference storageReference;
-
-    private File imagePath = new File("/storage/emulated/0/Download/73igtt9khyd11.jpg");    //only works on stan's phone
-    private File trackPath = new File("/storage/emulated/0/Download/Ariana Grande - Thank u, next.mp3");    //only works on stan's phone
+    String filename;
+    StorageReference imageStorageReference;
+    StorageReference trackStorageReference;
 
     private Track track = new Track("", "", "", "", 0, "");
 
@@ -61,19 +58,10 @@ public class AddTrackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_track);
 
         dialog = new SpotsDialog.Builder().setContext(this).build();
-        btn_upload = (Button)findViewById(R.id.ConfirmBtn);
 
-        storageReference = FirebaseStorage.getInstance().getReference("image_upload");
+        this.pickImage();
+        this.pickTrack();
 
-        btn_upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE_CODE);
-            }
-        });
     }
 
     @Override
@@ -82,7 +70,23 @@ public class AddTrackActivity extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_CODE) {
             dialog.show();
 
-            UploadTask uploadTask = storageReference.putFile(data.getData());
+
+            Cursor returnCursor = getContentResolver().query(data.getData(), null, null, null, null);
+            Log.d("cursor", "" + returnCursor);
+
+            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            returnCursor.moveToFirst();
+            Log.d("filename","" + returnCursor.getString(nameIndex));
+            this.filename = returnCursor.getString(nameIndex);
+
+            if(filename.contains(".jpg") || filename.contains(".jpeg") || filename.contains(".png")){
+                imageStorageReference = FirebaseStorage.getInstance().getReference("images/" + this.filename);
+            }
+            else if(filename.contains(".mp3") || filename.contains(".mpeg")){
+                imageStorageReference = FirebaseStorage.getInstance().getReference("tracks/" + this.filename);
+            }
+
+            UploadTask uploadTask = imageStorageReference.putFile(data.getData());
 
             Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
@@ -90,7 +94,13 @@ public class AddTrackActivity extends AppCompatActivity {
                     if(!task.isSuccessful()) {
                         Toast.makeText(AddTrackActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
-                    return storageReference.getDownloadUrl();
+                    if(filename.contains(".jpg") || filename.contains(".jpeg") || filename.contains(".png")){
+                        track.setImageURL(imageStorageReference.getDownloadUrl().toString());
+                    }
+                    else if(filename.contains(".mp3") || filename.contains(".mpeg")){
+                        track.setTrackURL(imageStorageReference.getDownloadUrl().toString());
+                    }
+                    return imageStorageReference.getDownloadUrl();
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
@@ -106,12 +116,53 @@ public class AddTrackActivity extends AppCompatActivity {
         }
     }
 
-    public void pickImage(View v) {
-        // TODO: 18/04/19 opens filechooser and remembers image
+    public void getInputValues() {
+        String title = ((EditText)findViewById(R.id.TitleField)).getText().toString();
+        String artist = ((EditText)findViewById(R.id.ArtistField)).getText().toString();
+        String genre = ((EditText)findViewById(R.id.GenreField)).getText().toString();
+
+        this.track.setTitle(title);
+        this.track.setArtist(artist);
+        this.track.setGenre(genre);
     }
 
-    public void pickTrack(View v) {
+    public void addTrack(View v) {
+        // TODO: 18/04/19 add track model to database
+        this.getInputValues();
+        Log.d("TRACK", "addTrack: " + track.getTrackURL() + track.getImageURL() + track.getTitle());
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("tracks/" + track.getArtist() + " - " + track.getTitle());
+        myRef.setValue(track);
+    }
+
+    public void pickImage() {
+        // TODO: 18/04/19 opens filechooser and remembers image
+
+        btn_upload = (Button)findViewById(R.id.ImagePicker);
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE_CODE);
+            }
+        });
+    }
+
+    public void pickTrack() {
         // TODO: 18/04/19 opens filechooser and remembers track
+        btn_upload = (Button)findViewById(R.id.TrackPicker);
+        btn_upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE_CODE);
+            }
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -171,76 +222,7 @@ public class AddTrackActivity extends AppCompatActivity {
 //        });
 //    }
 
-    public void getInputValues(View v) {
-        String title = ((EditText)findViewById(R.id.TitleField)).getText().toString();
-        String artist = ((EditText)findViewById(R.id.ArtistField)).getText().toString();
-        String genre = ((EditText)findViewById(R.id.GenreField)).getText().toString();
 
-        this.track.setTitle(title);
-        this.track.setArtist(artist);
-        this.track.setGenre(genre);
-    }
 
-//    public void addTrack(View v) {
-//        // TODO: 18/04/19 add track model to database
-//
-//        DatabaseReference myRef = this.database.getReference(this.track.getTitle());
-//        myRef.setValue(this.track);
-//    }
 
-//    public void filechooser(View v) {
-////        Permission is not yet granted
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-////            Permission has been previously asked and denied
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//            }
-////            Permission has not been asked yet -> so will ask
-//            else {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-//            }
-//        }
-////        Permission is granted
-//        else if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//            Intent intent = new Intent();
-//            intent.setType("image/*");
-//            intent.setAction(Intent.ACTION_GET_CONTENT);
-//            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
-//        }
-//    }
-
-//    @RequiresApi(api = Build.VERSION_CODES.O)
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent returnIntent) {
-//        if (requestCode == 1 && resultCode == RESULT_OK) {
-//            Uri returnUri = returnIntent.getData();
-//            Log.d("uri", "" + returnUri);
-//            Log.d("uri", "" + returnUri.getPath());
-//
-//            Uri file = Uri.fromFile(new File(returnUri.getPath()));
-//            Log.d("file?", "" + file);
-//
-//            StorageReference riversRef = storageRef.child(file.getLastPathSegment());
-//            UploadTask uploadTask = riversRef.putFile(file);
-//
-//            uploadTask.addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception exception) {
-//                    // Handle unsuccessful uploads
-//                }
-//            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-//                    // ...
-//                }
-//            });
-//
-//            Cursor returnCursor = getContentResolver().query(returnUri, null, null, null, null);
-//            Log.d("cursor", "" + returnCursor);
-//
-//            int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-//            returnCursor.moveToFirst();
-//            Log.d("filename","" + returnCursor.getString(nameIndex));
-//        }
-//    }
 }
