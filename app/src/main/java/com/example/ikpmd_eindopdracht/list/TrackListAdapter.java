@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ikpmd_eindopdracht.service.MediaPlayerService;
+import com.squareup.picasso.Picasso;
 
 public class TrackListAdapter extends ArrayAdapter<Track> {
 
@@ -64,6 +65,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
 //        vh.image.setImageResource(track.getImageURL());
         vh.title.setText(track.getTitle());
         vh.artist.setText(track.getArtist());
+        Picasso.get().load(track.getImageURL()).into(vh.image);
 //        vh.genre.setText(track.getGenre());
 
 
