@@ -16,15 +16,6 @@ public class MediaPlayerService extends Thread {
         this.trackURL = url;
     }
 
-//    public static MediaPlayerService getInstance(String url){
-//
-//
-//
-//        if(mediaPlayerService == null){
-//            mediaPlayerService = new MediaPlayerService();
-//        }
-//        return mediaPlayerService;
-//    }
 
     @Override
     public void run() {

@@ -60,7 +60,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         final Track track = getItem(position);
 
 //        Image img = track.getImageURL();
-//        vh.image.setImageURI(track.getImageURL());
+//        vh.image.setImageResource(track.getImageURL());
         vh.title.setText(track.getTitle());
         vh.artist.setText(track.getArtist());
 //        vh.genre.setText(track.getGenre());
@@ -70,9 +70,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
             @Override
             public void onClick(View v) {
 
-                vh.playpause.setImageResource(R.drawable.ic_pause);
-
-                MediaPlayerService mediaPlayerService = new MediaPlayerService(track.getTrackURL());
+                final MediaPlayerService mediaPlayerService = new MediaPlayerService(track.getTrackURL());
 
                 if(!list.isEmpty()) {
                     System.out.println(list.get(0));
@@ -86,6 +84,19 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
                 }
 
                 mediaPlayerService.start();
+
+                vh.playpause.setImageResource(R.drawable.ic_pause_circle_outline_white_24dp);
+
+                vh.playpause.setOnClickListener(new AdapterView.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        mediaPlayerService.pauseTrack();
+                        vh.playpause.setImageResource(R.drawable.ic_play);
+
+                    }
+                });
+
             }
         });
 
