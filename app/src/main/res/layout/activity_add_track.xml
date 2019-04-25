@@ -7,6 +7,19 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".AddTrackActivity">
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="@string/add_track"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/ImagePicker"
         android:layout_width="347dp"
@@ -17,21 +30,25 @@
         android:background="@color/colorPrimary"
         android:text="Pick Image"
         android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/TrackPicker"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/TrackPicker"
         android:layout_width="347dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:background="@color/colorPrimary"
         android:text="Pick track"
         android:textColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/TitleField"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ImagePicker" />
 
@@ -42,6 +59,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="32dp"
+        android:autofillHints=""
         android:background="@drawable/edit_text_background"
         android:ems="10"
         android:hint="@string/title"
@@ -50,10 +68,11 @@
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorSecondaryDark"
         android:textCursorDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/ArtistField"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TrackPicker"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/TrackPicker" />
 
     <EditText
         android:id="@+id/ArtistField"
@@ -62,6 +81,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
+        android:autofillHints=""
         android:background="@drawable/edit_text_background"
         android:ems="10"
         android:hint="@string/artist"
@@ -70,10 +90,11 @@
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorSecondaryDark"
         android:textCursorDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/GenreField"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TitleField"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/TitleField" />
 
     <EditText
         android:id="@+id/GenreField"
@@ -82,6 +103,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
+        android:autofillHints=""
         android:background="@drawable/edit_text_background"
         android:ems="10"
         android:hint="@string/genre"
@@ -90,10 +112,11 @@
         android:textColor="@color/colorAccent"
         android:textColorHint="@color/colorSecondaryDark"
         android:textCursorDrawable="@null"
+        app:layout_constraintBottom_toTopOf="@+id/ConfirmBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ArtistField"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/ArtistField" />
 
     <Button
         android:id="@+id/ConfirmBtn"
@@ -109,8 +132,10 @@
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/CancelBtn"
-        app:layout_constraintTop_toBottomOf="@+id/GenreField" />
+        app:layout_constraintTop_toBottomOf="@+id/GenreField"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/CancelBtn"
@@ -126,7 +151,9 @@
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ConfirmBtn"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/GenreField" />
+        app:layout_constraintTop_toBottomOf="@+id/GenreField"
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>
