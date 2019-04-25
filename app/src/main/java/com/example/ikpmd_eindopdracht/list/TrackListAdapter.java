@@ -86,7 +86,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
 
                 mediaPlayerService.start();
 
-                vh.playpause.setImageResource(R.drawable.ic_pause_circle_outline_white_24dp);
+                vh.playpause.setImageResource(R.drawable.ic_pause_circle);
                 vh.title.setTextColor(Color.parseColor("#ff4081"));
                 vh.artist.setTextColor(Color.parseColor("#c60055"));
 
