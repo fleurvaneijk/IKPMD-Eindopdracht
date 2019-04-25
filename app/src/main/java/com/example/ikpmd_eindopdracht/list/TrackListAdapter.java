@@ -1,6 +1,7 @@
 package com.example.ikpmd_eindopdracht.list;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ikpmd_eindopdracht.R;
@@ -27,8 +29,9 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
         AppCompatImageView image;
         TextView title;
         TextView artist;
-        TextView genre;
-        TextView duration;
+        AppCompatImageView playpause;
+//        TextView genre;
+//        TextView duration;
     }
 
     public TrackListAdapter(Context context, int resource, List<Track> objects){
@@ -37,7 +40,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder vh;
+        final ViewHolder vh;
 
         if (convertView == null ) {
             vh = new ViewHolder();
@@ -46,8 +49,9 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
             vh.image = convertView.findViewById(R.id.subject_image);
             vh.title = convertView.findViewById(R.id.subject_title);
             vh.artist = convertView.findViewById(R.id.subject_artist);
-            vh.genre = convertView.findViewById(R.id.subject_genre);
-            vh.duration = convertView.findViewById(R.id.subject_duration);
+            vh.playpause = convertView.findViewById(R.id.playpause);
+//            vh.genre = convertView.findViewById(R.id.subject_genre);
+//            vh.duration = convertView.findViewById(R.id.subject_duration);
             convertView.setTag(vh);
         } else {
             vh = (ViewHolder) convertView.getTag();
@@ -59,12 +63,14 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
 //        vh.image.setImageURI(track.getImageURL());
         vh.title.setText(track.getTitle());
         vh.artist.setText(track.getArtist());
-        vh.genre.setText(track.getGenre());
+//        vh.genre.setText(track.getGenre());
 
 
         convertView.setOnClickListener(new AdapterView.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                vh.playpause.setImageResource(R.drawable.ic_pause);
 
                 MediaPlayerService mediaPlayerService = new MediaPlayerService(track.getTrackURL());
 
@@ -80,7 +86,6 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
                 }
 
                 mediaPlayerService.start();
-
             }
         });
 

@@ -8,7 +8,9 @@ public class MediaPlayerService extends Thread {
 
     private static MediaPlayerService mediaPlayerService;
     private MediaPlayer mediaPlayer = new MediaPlayer();
-    private  String trackURL;
+    private String trackURL;
+
+    private int currentPosition = 0;
 
     public MediaPlayerService(String url) {
         this.trackURL = url;
@@ -26,7 +28,13 @@ public class MediaPlayerService extends Thread {
 
     @Override
     public void run() {
-        playTrack();
+        if (!mediaPlayer.isPlaying() && currentPosition == 0) {
+            playTrack();
+        } else if (mediaPlayer.isPlaying()) {
+            pauseTrack();
+        } else {
+            resumeTrack();
+        }
     }
 
     public void playTrack() {
@@ -42,15 +50,12 @@ public class MediaPlayerService extends Thread {
     }
 
     public void pauseTrack() {
-        if(mediaPlayer.isPlaying()){
-            mediaPlayer.pause();
-        }
+        currentPosition = mediaPlayer.getCurrentPosition();
+        mediaPlayer.stop();
     }
 
     public void resumeTrack() {
-        if(!mediaPlayer.isPlaying()){
-            mediaPlayer.start();
-        }
+        mediaPlayer.seekTo(currentPosition);
     }
 
     public void stopTrack() {
