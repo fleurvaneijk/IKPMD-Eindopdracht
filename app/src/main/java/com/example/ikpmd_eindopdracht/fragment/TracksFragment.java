@@ -40,7 +40,7 @@ public class TracksFragment extends Fragment {
     }
 
     private void fillTrackList() {
-        this.databaseRef = this.database.getReference("Tracks");
+        this.databaseRef = this.database.getReference("tracks");
 
         this.databaseRef.addValueEventListener(new ValueEventListener() {
             @Override

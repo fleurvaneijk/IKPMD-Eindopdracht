@@ -54,7 +54,7 @@ public class AddTrackActivity extends AppCompatActivity {
 
     }
 
-    public void pickImage() {
+    private void pickImage() {
         btn_upload = (Button)findViewById(R.id.ImagePicker);
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +67,7 @@ public class AddTrackActivity extends AppCompatActivity {
         });
     }
 
-    public void pickTrack() {
+    private void pickTrack() {
         btn_upload = (Button)findViewById(R.id.TrackPicker);
         btn_upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +86,6 @@ public class AddTrackActivity extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_CODE) {
             dialog.show();
 
-
             Cursor returnCursor = getContentResolver().query(data.getData(), null, null, null, null);
             Log.d("cursor", "" + returnCursor);
 
@@ -101,7 +100,7 @@ public class AddTrackActivity extends AppCompatActivity {
                 imageStorageReference = FirebaseStorage.getInstance().getReference("images/" + this.filename);
                 uploadTask = imageStorageReference.putFile(data.getData());
             }
-            else if(filename.contains(".mp3") || filename.contains(".mpeg")){
+            else if(filename.contains(".mp3") || filename.contains(".mpeg") || filename.contains(".flac")){
                 trackStorageReference = FirebaseStorage.getInstance().getReference("tracks/" + this.filename);
                 uploadTask = trackStorageReference.putFile(data.getData());
             }
@@ -120,8 +119,7 @@ public class AddTrackActivity extends AppCompatActivity {
                                 track.setImageURL(downloadURL.toString());
                                 Log.d("imageURL", "onComplete: " + downloadURL);
                                 dialog.dismiss();
-                                Toast toast = Toast.makeText(getApplicationContext(), "Image Uploaded", Toast.LENGTH_SHORT);
-                                toast.show();
+                                Toast.makeText(AddTrackActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -133,25 +131,17 @@ public class AddTrackActivity extends AppCompatActivity {
                                 track.setTrackURL(downloadURL.toString());
                                 Log.d("trackURL", "onComplete: " + downloadURL);
                                 dialog.dismiss();
-                                Toast toast = Toast.makeText(getApplicationContext(), "Track Uploaded", Toast.LENGTH_SHORT);
-                                toast.show();
+                                Toast.makeText(AddTrackActivity.this, "Track uploaded", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                     return null;
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if(task.isSuccessful()) {
-                        dialog.dismiss();
-                    }
-                }
             });
         }
     }
 
-    public void getInputValues() {
+    private void getInputValues() {
         String title = ((EditText)findViewById(R.id.TitleField)).getText().toString();
         String artist = ((EditText)findViewById(R.id.ArtistField)).getText().toString();
         String genre = ((EditText)findViewById(R.id.GenreField)).getText().toString();
@@ -168,6 +158,10 @@ public class AddTrackActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("tracks/" + track.getArtist() + " - " + track.getTitle());
         myRef.setValue(track);
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    public void cancel(View v){
         startActivity(new Intent(this, MainActivity.class));
     }
 }
