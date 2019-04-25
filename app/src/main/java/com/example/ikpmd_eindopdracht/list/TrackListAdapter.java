@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.ikpmd_eindopdracht.service.MediaPlayerService;
+import com.squareup.picasso.Picasso;
 
 public class TrackListAdapter extends ArrayAdapter<Track> {
 
@@ -65,6 +66,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
 //        vh.image.setImageResource(track.getImageURL());
         vh.title.setText(track.getTitle());
         vh.artist.setText(track.getArtist());
+        Picasso.get().load(track.getImageURL()).into(vh.image);
 //        vh.genre.setText(track.getGenre());
 
 
@@ -90,6 +92,7 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
                 StatisticsFragment.addTrackToUserStatistics(track.getTitle());
 
                 vh.playpause.setImageResource(R.drawable.ic_pause_circle_outline_white_24dp);
+                vh.playpause.setImageResource(R.drawable.ic_pause_circle);
                 vh.title.setTextColor(Color.parseColor("#ff4081"));
                 vh.artist.setTextColor(Color.parseColor("#c60055"));
 
