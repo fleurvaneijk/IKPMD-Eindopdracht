@@ -79,36 +79,55 @@ public class AddTrackActivity extends AppCompatActivity {
             Log.d("filename","" + returnCursor.getString(nameIndex));
             this.filename = returnCursor.getString(nameIndex);
 
+            UploadTask uploadTask = null;
+
             if(filename.contains(".jpg") || filename.contains(".jpeg") || filename.contains(".png")){
                 imageStorageReference = FirebaseStorage.getInstance().getReference("images/" + this.filename);
+                uploadTask = imageStorageReference.putFile(data.getData());
             }
             else if(filename.contains(".mp3") || filename.contains(".mpeg")){
-                imageStorageReference = FirebaseStorage.getInstance().getReference("tracks/" + this.filename);
+                trackStorageReference = FirebaseStorage.getInstance().getReference("tracks/" + this.filename);
+                uploadTask = trackStorageReference.putFile(data.getData());
             }
 
-            UploadTask uploadTask = imageStorageReference.putFile(data.getData());
-
-            Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
                     if(!task.isSuccessful()) {
                         Toast.makeText(AddTrackActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                     }
                     if(filename.contains(".jpg") || filename.contains(".jpeg") || filename.contains(".png")){
-                        track.setImageURL(imageStorageReference.getDownloadUrl().toString());
+
+                        imageStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri downloadURL) {
+                                track.setImageURL(downloadURL.toString());
+                                Log.d("imageURL", "onComplete: " + downloadURL);
+                                dialog.dismiss();
+                                Toast toast = Toast.makeText(getApplicationContext(), "Image Uploaded", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        });
                     }
-                    else if(filename.contains(".mp3") || filename.contains(".mpeg")){
-                        track.setTrackURL(imageStorageReference.getDownloadUrl().toString());
+                    else if(filename.contains(".mp3") || filename.contains(".mpeg") || filename.contains(".flac")){
+
+                        trackStorageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri downloadURL) {
+                                track.setTrackURL(downloadURL.toString());
+                                Log.d("trackURL", "onComplete: " + downloadURL);
+                                dialog.dismiss();
+                                Toast toast = Toast.makeText(getApplicationContext(), "Track Uploaded", Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                        });
                     }
-                    return imageStorageReference.getDownloadUrl();
+                    return null;
                 }
             }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
                     if(task.isSuccessful()) {
-                        String url = task.getResult().toString().substring(0, task.getResult().toString().indexOf("&token") - 1);
-                        Log.d("DIRECTLINK", url);
-
                         dialog.dismiss();
                     }
                 }
@@ -158,7 +177,7 @@ public class AddTrackActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setType("image/*");
+                intent.setType("audio/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select picture"), PICK_IMAGE_CODE);
             }
