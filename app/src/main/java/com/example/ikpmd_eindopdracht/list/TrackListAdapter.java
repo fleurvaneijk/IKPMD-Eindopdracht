@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ikpmd_eindopdracht.R;
+import com.example.ikpmd_eindopdracht.fragment.StatisticsFragment;
 import com.example.ikpmd_eindopdracht.model.Track;
 
 import java.util.ArrayList;
@@ -85,6 +86,8 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
                 }
 
                 mediaPlayerService.start();
+
+                StatisticsFragment.addTrackToUserStatistics(track.getTitle());
 
                 vh.playpause.setImageResource(R.drawable.ic_pause_circle_outline_white_24dp);
                 vh.title.setTextColor(Color.parseColor("#ff4081"));
