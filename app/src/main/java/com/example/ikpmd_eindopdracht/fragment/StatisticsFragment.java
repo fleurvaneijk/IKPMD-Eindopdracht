@@ -11,14 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.ikpmd_eindopdracht.R;
-import com.example.ikpmd_eindopdracht.model.Track;
-import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
+import com.firebase.ui.auth.AuthUI;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,17 +32,24 @@ import java.util.Map;
 
 public class StatisticsFragment extends Fragment {
 
-    private static HashMap<String, Integer> favouritedTracks = new HashMap<String, Integer>();
+    private static String TAG = "statistics";
+
+    private static HashMap<String, Integer> playedTracks = new HashMap<String, Integer>();
     private HorizontalBarChart barChart;
     private View view;
-    public static final int MAX_ECTS = 60;
     public static int currentEcts = 0;
+
+    private static FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private static String userUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    private static DatabaseReference myRef = database.getReference("statistics/" + userUID);
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_statistics, container, false);
+
         this.makeChart();
+
         return view;
     }
 
@@ -46,12 +58,34 @@ public class StatisticsFragment extends Fragment {
         this.barChart = chart;
     }
 
+    public static void addTrackToUserStatistics(final String trackTitle) {
+        myRef.child(trackTitle).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    Log.d(TAG, "onDataChange: " + dataSnapshot);
+                    int value = dataSnapshot.getValue(Integer.class);
+                    myRef.child(trackTitle).setValue(value + 1);
+                }
+                else if(!dataSnapshot.exists()){
+                    Log.d(TAG, "onDataChange: hij komt in de else!");
+                    myRef.child(trackTitle).setValue(1);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
     private void setData(int aantal) {
         List<BarEntry> yValues = new ArrayList<>();
         List<BarEntry> xValues = new ArrayList<>();
 
 
-        for (Map.Entry<String, Integer> entry : favouritedTracks.entrySet()) {
+        for (Map.Entry<String, Integer> entry : playedTracks.entrySet()) {
             String key = entry.getKey();
             int value = (Integer)entry.getValue();
 
@@ -87,13 +121,5 @@ public class StatisticsFragment extends Fragment {
         Log.d("aantal =", ""+currentEcts);
     }
 
-    public static void addToFavouritedTracks (String trackTitle) {
-        if(favouritedTracks.containsKey(trackTitle)){
-            int value = (Integer)favouritedTracks.get(trackTitle);
-            favouritedTracks.put(trackTitle, value + 1);
-        }
-        else {
-            favouritedTracks.put(trackTitle, 1);
-        }
-    }
+
 }

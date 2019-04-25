@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.ikpmd_eindopdracht.R;
+import com.example.ikpmd_eindopdracht.fragment.StatisticsFragment;
 import com.example.ikpmd_eindopdracht.model.Track;
 
 import java.util.ArrayList;
@@ -80,6 +81,8 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
                 }
 
                 mediaPlayerService.start();
+
+                StatisticsFragment.addTrackToUserStatistics(track.getTitle());
 
             }
         });
