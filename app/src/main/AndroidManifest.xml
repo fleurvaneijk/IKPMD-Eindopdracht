@@ -17,10 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".SignInActivity" />
-        <activity android:name=".MainActivity"
+        <activity android:name=".AddTrackActivity"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".AddTrackActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
