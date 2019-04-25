@@ -86,9 +86,9 @@ public class StatisticsFragment extends Fragment {
     private void setData(ArrayList<HashMap<String, Integer>> data){
 
         ArrayList<BarEntry> yVals = new ArrayList<>();
-//        final ArrayList<String> xVals = new ArrayList<>();
+        final ArrayList<String> xVals = new ArrayList<>();
 
-        final String[] xVals = new String[2];
+//        final String[] xVals = new String[2];
 
 
         int index = 0;
@@ -100,8 +100,8 @@ public class StatisticsFragment extends Fragment {
 
             Collection keys = hashmap.keySet();
             String key = keys.toArray()[0].toString();
-//            xVals.add(key);
-            xVals[index] = key;
+            xVals.add(key);
+//            xVals[index] = key;
 
             index++;
         }
@@ -133,13 +133,10 @@ public class StatisticsFragment extends Fragment {
         xAxis.setAxisLineColor(Color.WHITE);
         xAxis.setGridColor(Color.WHITE);
         xAxis.setDrawGridLines(false);
-//        xAxis.setAxisMinimum(0f);
         xAxis.setGranularity(1f);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xVals) {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-//                return xVals[(int) value % xVals.length];
-//                Timber.i("index = %s", value);
                 return super.getFormattedValue(value-5f, axis);
             }
         });
