@@ -1,6 +1,7 @@
 package com.example.ikpmd_eindopdracht.list;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.support.v7.widget.AppCompatImageView;
@@ -86,6 +87,8 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
                 mediaPlayerService.start();
 
                 vh.playpause.setImageResource(R.drawable.ic_pause_circle_outline_white_24dp);
+                vh.title.setTextColor(Color.parseColor("#ff4081"));
+                vh.artist.setTextColor(Color.parseColor("#c60055"));
 
                 vh.playpause.setOnClickListener(new AdapterView.OnClickListener() {
                     @Override
@@ -93,6 +96,9 @@ public class TrackListAdapter extends ArrayAdapter<Track> {
 
                         mediaPlayerService.pauseTrack();
                         vh.playpause.setImageResource(R.drawable.ic_play);
+
+                        vh.title.setTextColor(Color.parseColor("#fafafa"));
+                        vh.artist.setTextColor(Color.parseColor("#c7c7c7"));
 
                     }
                 });
