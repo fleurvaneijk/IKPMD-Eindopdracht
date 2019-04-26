@@ -54,14 +54,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_tracklist:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new TracksFragment()).commit();
                 break;
-            case R.id.nav_playlist:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PlaylistFragment()).commit();
-                break;
             case R.id.nav_statistics:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new StatisticsFragment()).commit();
-                break;
-            case R.id.nav_account:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
                 break;
             case R.id.nav_logout:
                 onSignOutClicked();

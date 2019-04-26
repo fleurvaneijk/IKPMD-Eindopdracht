@@ -7,15 +7,9 @@
         <item android:id="@+id/nav_tracklist"
             android:icon="@drawable/ic_tracklist"
             android:title="Tracks" />
-        <item android:id="@+id/nav_playlist"
-            android:icon="@drawable/ic_playlist"
-            android:title="Playlist" />
         <item android:id="@+id/nav_statistics"
             android:icon="@drawable/ic_stats"
             android:title="Statistics" />
-        <item android:id="@+id/nav_account"
-            android:icon="@drawable/ic_account"
-            android:title="Account" />
         <item android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
             android:title="Sign Out" />
